@@ -11,7 +11,7 @@ The system is designed to be fully executable on a local machine without requiri
 
 ---
 
-## 🚀 Features
+Features
 
 - **Fully Local Execution**: No cloud or external API dependencies.
 - **Privacy-Preserving**: No patient data leaves the local environment.
@@ -21,7 +21,7 @@ The system is designed to be fully executable on a local machine without requiri
 
 ---
 
-## 📚 Requirements
+Requirements
 
 - Python 3.9+
 - torch
@@ -37,7 +37,7 @@ Install all dependencies:
 ```bash
 pip install -r requirements.txt
 
-🛠️ How to Use
+How to Use　this
 1. FAQ-based Question Classifier
 Prepare:
 
@@ -65,7 +65,7 @@ python small_talk_chat.py
 Type patient utterances to interact with the chatbot.
 Type exit to terminate the session.
 
-🧩 Models Used
+Models Used here
 Sentence Transformer Models
 
 sonoisa/sentence-bert-base-ja-mean-tokens
@@ -80,20 +80,20 @@ Small Language Model
 
 tokyotech-llm/Llama-3.1-Swallow-8B-Instruct-v0.3
 
-📝 Output
+Output
 CSV file containing classification results and confidence scores.
 
 Chat logs for small talk interactions (saved locally).
 
 Record of patient inquiries in Excel format.
 
-📜 License
+License
 This project is licensed under the MIT License.
 
-📖 Citation
+Citation
 If you use this code, please cite:
 
 [Citation details will be added after publication]
 
-⚠️ Disclaimer
-This system is intended for research purposes only and is not approved for clinical decision-making or patient diagnosis.
+Disclaimer
+This system is intended for research purposes only and is not approved for any clinical decision-making or patient diagnosis.
