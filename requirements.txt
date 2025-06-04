@@ -1,0 +1,8 @@
+pandas
+openpyxl
+numpy
+scikit-learn
+sentence-transformers
+torch
+transformers
+accelerate
