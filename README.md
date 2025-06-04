@@ -97,3 +97,5 @@ If you use this code, please cite:
 
 Disclaimer
 This system is intended for research purposes only and is not approved for any clinical decision-making or patient diagnosis.
+
+Note: Due to ethical and privacy considerations, the FAQ data and test datasets used in this project are not publicly available. Researchers interested in accessing the datasets may contact the corresponding author under appropriate agreements.
