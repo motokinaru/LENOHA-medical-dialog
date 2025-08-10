@@ -1,101 +1,96 @@
+LENOHA Medical Dialogue System
+Local, zero-hallucination medical dialogue support for pre-procedure communication.
+This repository provides a minimal, one-command reproducibility package for the classifier evaluation reported in our manuscript (under review).
 
-# LENOHA Medical Dialogue System
+Quick Repro
+Windows (PowerShell)
 
-This repository contains the code developed for the study "**Toward Responsible AI in Healthcare: A Local, Zero-Hallucination Medical Dialogue System Aligned with Sustainable Development Goals**" submitted to *npj Digital Medicine*.
-
-The system is designed to be fully executable on a local machine without requiring cloud services, enabling privacy-preserving and sustainable digital health interventions. It consists of:
-
-- **FAQ-based Question Classifier**: Using Sentence Transformer models for efficient patient inquiry classification.
-- **Small Talk Generator**: Powered by Swallow-8B-Instruct v0.3 for generating safe and friendly small talk responses.
-- **Local Execution**: No internet connection or external API is required, ensuring data privacy.
-
----
-
-Features
-
-- **Fully Local Execution**: No cloud or external API dependencies.
-- **Privacy-Preserving**: No patient data leaves the local environment.
-- **Low Resource Requirements**: Runs on consumer-grade laptops.
-- **Sustainable**: Minimal energy consumption, supporting SDG 7, 12, and 13.
-- **Equity-Oriented**: Suitable for low-resource or rural healthcare settings.
-
----
-
-Requirements
-
-- Python 3.9+
-- torch
-- transformers
-- sentence-transformers
-- pandas
-- scikit-learn
-- openpyxl
-- accelerate
-
-Install all dependencies:
-
-```bash
-pip install -r requirements.txt
-
-How to Use　this
-1. FAQ-based Question Classifier
-Prepare:
-
-ikamerafaq.xlsx: Excel file with FAQ questions and answers.
-
-ikamerazatudan.csv: CSV file with input sentences for classification evaluation.
+Open PowerShell in this folder: artifact/minimal
 
 Run:
+cd artifact/minimal
+powershell -ExecutionPolicy Bypass -File .\run_eval.ps1
 
-bash
-コピーする
-編集する
-python faq_classifier.py
-2. Small Talk Generator
-Prepare:
+Outputs will appear in artifact/minimal/out/:
 
-Install the Swallow-8B-Instruct v0.3 model from HuggingFace.
+metrics.json, metrics.csv (Accuracy / Precision / Recall / F1 / Specificity + 95% Wilson CI, AUC)
 
-Run:
+preds.csv (scores and predicted labels)
 
-bash
-コピーする
-編集する
-python small_talk_chat.py
-Type patient utterances to interact with the chatbot.
-Type exit to terminate the session.
+misclassified.csv (FP/FN)
 
-Models Used here
-Sentence Transformer Models
+roc_points.csv
 
-sonoisa/sentence-bert-base-ja-mean-tokens
+Using a venv? Edit the first line of run_eval.ps1 and set:
+$py = "C:/path/to/your/venv/Scripts/python.exe"
 
-sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+Linux / macOS
+cd artifact/minimal
+python -m pip install -r requirements.txt
+python ./tch_eval_classify.py
+--faq_xlsx ./faq.xlsx
+--input_csv ./test.csv
+--st_model intfloat/multilingual-e5-large-instruct
+--threshold 0.905
+--out_dir ./out
 
-intfloat/multilingual-e5-large
+What’s Included (minimal)
+artifact/minimal/
 
-intfloat/multilingual-e5-large-instruct
+README.md
 
-Small Language Model
+requirements.txt
 
-tokyotech-llm/Llama-3.1-Swallow-8B-Instruct-v0.3
+run_eval.ps1
 
-Output
-CSV file containing classification results and confidence scores.
+tch_eval_classify.py (evaluation script: thresholded classifier + metrics + ROC/AUC)
 
-Chat logs for small talk interactions (saved locally).
+faq.xlsx (sample FAQ: header = question, answer)
 
-Record of patient inquiries in Excel format.
+test.csv (sample evaluation data: columns = input,label)
+
+Input Formats
+faq.xlsx: column A = question, column B = answer (row 1 is a header).
+
+test.csv: columns input,label (1 = clinical question; 0 = small talk).
+
+Outputs
+Confusion matrix (tn, fp, fn, tp), Accuracy / Precision / Recall / F1 / Specificity / Balanced Accuracy,
+95% Wilson confidence intervals, and AUC.
+
+Misclassified examples (misclassified.csv).
+
+ROC curve points (roc_points.csv).
+
+Optional McNemar / Cohen’s h:
+Add --compare_preds path/to/other_model_preds.csv (must contain a pred column).
+
+Models
+SentenceTransformer (embeddings): intfloat/multilingual-e5-large-instruct
+(E5 prompt convention is applied internally: “query:” / “passage:”)
+
+Threshold: 0.905 (picked via Youden index on validation in the study).
+
+Note: The manuscript’s small-talk generation with Swallow-8B is a separate module.
+This minimal package focuses on classification evaluation (zero-generation via FAQ).
+
+Environment
+Python 3.11+ recommended.
+
+Pinned dependencies are listed in artifact/minimal/requirements.txt.
+
+GPU is optional (CPU works; GPU accelerates embedding).
+
+Data Availability
+The included faq.xlsx and test.csv are toy samples.
+Clinically curated datasets used in the study are not publicly released due to ethics and institutional policies. For qualified research collaborations, contact the corresponding author subject to institutional approvals.
 
 License
-This project is licensed under the MIT License.
+MIT License (see the repository root LICENSE).
 
 Citation
-If you use this code, please cite:
-
-[Citation details will be added after publication]
+Please cite this repository if you use the code.
+(Formal bibliographic details will be added after acceptance.)
 
 Disclaimer
-This system is intended for research purposes only and is not approved for any clinical decision-making or patient diagnosis.
-
-Note: Due to ethical and privacy considerations, the FAQ data and test datasets used in this project are not publicly available. Researchers interested in accessing the datasets may contact the corresponding author under appropriate agreements.
+This software is for research purposes only and must not be used for clinical decision-making, diagnosis, or treatment.
